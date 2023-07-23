@@ -1,5 +1,6 @@
 import { Card, CardContent, Grid, Button } from '@mui/material';
 import { useState } from "react";
+import "./BookList.css"
 
 export interface BookData {
   title: string;
@@ -17,9 +18,9 @@ function BookList({ books, bookPerPage }: BookListProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   // Calculate the index range for the current page
-  const indexOfLastImage = currentPage * bookPerPage;
-  const indexOfFirstImage = indexOfLastImage - bookPerPage;
-  const currentImages = books.slice(indexOfFirstImage, indexOfLastImage);
+  const indexOfLastBook = currentPage * bookPerPage;
+  const indexOfFirstBook = indexOfLastBook - bookPerPage;
+  const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage: number) => prevPage + 1);
@@ -31,8 +32,8 @@ function BookList({ books, bookPerPage }: BookListProps) {
 
   return (
     <Grid container spacing={2} justifyContent="space-between">
-      {currentImages.length > 0 ? (
-        currentImages.map((book) => (
+      {currentBooks.length > 0 ? (
+        currentBooks.map((book) => (
           <Grid key={book.title} item xs={12} sm={6} md={4} style={{ marginTop: '20px' }}>
             <Card className="image-card">
               <img
@@ -43,7 +44,6 @@ function BookList({ books, bookPerPage }: BookListProps) {
               <CardContent className="description">
                 <h3>{book.title}</h3>
                 <p>{book.authors.join(", ")}</p>
-                <p>{book.description}</p>
               </CardContent>
             </Card>
           </Grid>
@@ -65,7 +65,7 @@ function BookList({ books, bookPerPage }: BookListProps) {
         <Button
           variant="contained"
           color="primary"
-          disabled={indexOfLastImage >= books.length}
+          disabled={indexOfLastBook >= books.length}
           onClick={handleNextPage}
         >
           Next Page
